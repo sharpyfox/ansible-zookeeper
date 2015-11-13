@@ -31,7 +31,7 @@
   tags: bootstrap
 
 - name: Upstart script.
-  template: src=zookeeper.conf.j2 dest=/etc/init/zookeeper.conf
+  template: src=zookeeper-server.j2 dest=/etc/init.d/zookeeper-server mode=0755
   tags: deploy
   notify:
     - Restart zookeeper
@@ -49,5 +49,10 @@
     - Restart zookeeper
 
 - name: Start zookeeper
-  service: name=zookeeper state=started
+  service: name=zookeeper-server state=started enabled=yes
   tags: deploy
+
+- name: Ensure zookeeper-server is running
+  service: name=zookeeper-server state=running
+  tags: deploy
+
